@@ -33,6 +33,10 @@ ace .define(
 			valueT .match( /\S+/g ) .join( joinT ) 
 			} 
 		
+		function regJoins( ... regs ) { return '' .concat( ... regs .map( r => 
+			r instanceof RegExp ? r .source : r 
+			) ) } 
+		
 		function YaksokHighlightRules() { 
 			let keywordMapper = this .createKeywordMapper( new class { 
 				'support.function' = '보여주기' 
@@ -89,7 +93,7 @@ ace .define(
 							storage.type text 
 							paren.lparen text keyword text paren.rparen 
 							` 
-						regex = '(번역)(\\s*)(\\()(\\s*)(' + r .id + ')(\\s*)(\\))' 
+						regex = regJoins( /(번역)(\s*)(\()(\s*)/, `(${ r .id })`, /(\s*)(\))/ ) 
 						next = 'description' 
 						} 
 					, new class { 
