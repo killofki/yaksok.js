@@ -46,7 +46,7 @@ ace .define(
 			let tokenRegs = mapPipe( vv => { 
 				let { defaultToken, token, regex, next, ... vo } = vv 
 				if ( defaultToken ) { 
-					return { defaultToken } 
+					return { defaultToken } // or return vv ..? 
 					} 
 				
 				let nexto = ( next ?? {} ) || { next } 
