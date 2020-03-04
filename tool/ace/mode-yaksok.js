@@ -42,8 +42,8 @@ ace .define(
 					바깥 의 마다 
 					` 
 				}, 'identifier' ) 
-			let mapPipe = F => a => a .map( F ) 
-			let tokenRegs = mapPipe( vv => { 
+			
+			let tokenPicker = vv => { 
 				let { defaultToken, token, regex, next, ... vo } = vv 
 				if ( defaultToken ) { 
 					return { defaultToken } // or return vv ..? 
@@ -61,7 +61,9 @@ ace .define(
 					} 
 				
 				return { token, regex, ... nexto } 
-				}) 
+				} 
+			let mapPipe = F => a => a .map( F ) 
+			let tokenRegs = mapPipe( tokenPicker ) 
 			
 			let start = tokenRegs([ 
 				  { 'comment' : /#.*$/ } 
