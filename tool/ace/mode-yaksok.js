@@ -39,7 +39,7 @@ ace .define(
 		function YaksokHighlightRules() { 
 			let keywordMapper = this .createKeywordMapper( new class { 
 				'support.function' = '보여주기' 
-				'constant.language.boolean' = literalJoin `|` ` 참 거짓 ` 
+				'constant.language.boolean' = literalJoiner `|` ` 참 거짓 ` 
 				'keyword' = literalJoiner `|` ` 
 					약속 번역 결속 만약 반복 그만 다시 이전 
 					이면 이라면 아니면 아니라면 아니면서 
