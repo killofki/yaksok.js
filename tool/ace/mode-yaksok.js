@@ -52,6 +52,10 @@ ace .define(
 					let nexto = ( next ?? {} ) || { next } 
 					token ?? ( [ token, regex ] = Object .entries( vo ) ) 
 					
+					  regex instanceof RegExp ? ( regex = regex .source ) 
+					: regex instanceof Array ? ( regex = regex .join('|') ) 
+					: 0 
+					
 					return { token, regex, ... nexto } 
 					}) ( a ) ) ( new class { 
 				'start' = [ 
