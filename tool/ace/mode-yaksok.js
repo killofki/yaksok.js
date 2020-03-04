@@ -127,7 +127,7 @@ ace .define(
 						} 
 					, new class { 'paren.rparen' = /\)/ } 
 					, new class { 'keyword.operator' = /\// } 
-					, new clas { 
+					, new class { 
 						'text' = '$' 
 						next = 'start' 
 						} 
