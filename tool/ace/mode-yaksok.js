@@ -63,7 +63,7 @@ ace .define(
 				return { token, regex, ... nexto } 
 				}) 
 			
-			let start = [ 
+			let start = tokenRegs([ 
 				  { 'comment' : /#.*$/ } 
 				, { 'constant.numeric' : [ r .i, r .h, r .f ] } 
 				, { 'string' : /'(?=.)/, next : 'qstring' } 
@@ -85,34 +85,36 @@ ace .define(
 				, { 'paren.rparen' : /[\)\]\}]/ } 
 				, { 'text' : /\s+/ } 
 				]) 
-			let qstring = [ 
+			let qstring = tokenRegs([ 
 				  { 'string' : /'|$/, next = 'start' } 
 				, { defaultToken : 'string' } 
-				] 
-			let qqstring = [ 
+				]) 
+			let qqstring = tokenRegs([ 
 				  { 'string' : /"|$/, next : 'start' } 
 				, { defaultToken : 'string' } 
-				] 
-			let description = [ 
+				]) 
+			let description = tokenRegs([ 
 				  { 'entity.name.function' : r .id } 
 				, { 'paren.lparen' : /\(/, next =  'description_parameter' } 
 				, { 'paren.rparen' : /\)/ } 
 				, { 'keyword.operator' : /\// } 
 				, { 'text' : '$', next : 'start' } 
 				, { 'text' :  /\s+/ } 
-				] 
-			let description_parameter = [ 
+				]) 
+			let description_parameter = tokenRegs([ 
 				  { 'variable.parameter' : r .id, next : 'description' } 
 				, { 'text' : /\s+/ } 
-				] 
-			let translate = [ 
+				]) 
+			let translate = tokenRegs([ 
 				  { 'keyword.operator' : /^\s*\*{3}/, next : 'start' } 
 				, { defaultToken : 'support.function' } 
-				] 
+				])  
 			
-			this .$rules = valuePipe( ([ p, a ]) => [ p, tokenRegs( a ) ] ) ( { 
-				start, qstring, qqstring, description, description_parameter, translate 
-				} ) 
+			this .$rules = { 
+				  start, qstring, qqstring 
+				, description, description_parameter 
+				, translate 
+				} 
 			} // -- YaksokHighlightRules() 
 		} // -- ( require, exports, module ) 
 	) // -- ace .define 
