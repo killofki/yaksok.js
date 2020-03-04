@@ -79,7 +79,7 @@ ace .define(
 							storage.type text 
 							paren.lparen text keyword text paren.rparen 
 							` 
-						regex = '(번역)(\\s*)(\\()(\\s*)(' + r.id + ')(\\s*)(\\))' 
+						regex = '(번역)(\\s*)(\\()(\\s*)(' + r .id + ')(\\s*)(\\))' 
 						next = 'description' 
 						} 
 					, new class { 
@@ -106,7 +106,7 @@ ace .define(
 					, new class { defaultToken = 'string' } 
 					] 
 				'description' = [ 
-					  new class { 'entity.name.function' = r.id } 
+					  new class { 'entity.name.function' = r .id } 
 					, new class { 
 						'paren.lparen' = '\\(' 
 						next =  'description_parameter' 
@@ -148,25 +148,25 @@ ace .define(
 		
 		let oop = require('../lib/oop') 
 		let TextMode = require('./text') .Mode 
-		let PythonFoldMode = require('./folding/pythonic').FoldMode 
-		let YaksokHighlightRules = require('./yaksok_highlight_rules').YaksokHighlightRules 
+		let PythonFoldMode = require('./folding/pythonic') .FoldMode 
+		let YaksokHighlightRules = require('./yaksok_highlight_rules') .YaksokHighlightRules 
 		
 		function YaksokMode() {} 
-		oop.inherits(YaksokMode, TextMode) 
+		oop .inherits( YaksokMode, TextMode ) 
 		
-		let y = YaksokMode.prototype 
-		y.HighlightRules = YaksokHighlightRules 
-		y.foldingRules = new PythonFoldMode('^\\s*(?:약속(?!\\s+그만)|만약|반복).*$') 
-		y.lineCommentStart = '#' 
-		y.getNextLineIndent = function (state, line, tab) { 
-			 let indent = this.$getIndent(line) 
-			 let tokenizedLine = this.getTokenizer().getLineTokens(line, state) 
-			 let tokens = tokenizedLine.tokens 
-			 if (tokens.length && tokens[tokens.length - 1].type === 'comment') { 
+		let y = YaksokMode .prototype 
+		y .HighlightRules = YaksokHighlightRules 
+		y .foldingRules = new PythonFoldMode('^\\s*(?:약속(?!\\s+그만)|만약|반복).*$') 
+		y .lineCommentStart = '#' 
+		y .getNextLineIndent = function (state, line, tab) { 
+			 let indent = this .$getIndent(line) 
+			 let tokenizedLine = this .getTokenizer() .getLineTokens(line, state) 
+			 let tokens = tokenizedLine .tokens 
+			 if (tokens .length && tokens[tokens .length - 1] .type === 'comment') { 
 				  return indent 
 			 } 
 			 if (state === 'start') { 
-				  let match = line.match( 
+				  let match = line .match( 
 						/^(?:.*[\{\(\[]\s*|\s*(?:약속|만약|반복).*)$/ 
 				  ) 
 				  if (match) { 
@@ -177,7 +177,7 @@ ace .define(
 		} 
 		// TODO: auto outdent 
 		
-		exports.Mode = YaksokMode 
+		exports .Mode = YaksokMode 
 		
 		} 
 	) // -- ace .define 
