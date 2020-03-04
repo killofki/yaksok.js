@@ -30,7 +30,7 @@ ace .define(
 		function literalItems([ valueT ]) { return valueT .match( /\S+/g ) } 
 		
 		function literalJoiner([ joinT ]) { return ([ valueT ]) => 
-			litealItems([ valueT ]) .join( joinT ) 
+			valueT .match( /\S+/g ) .join( joinT ) 
 			} 
 		
 		function YaksokHighlightRules() { 
