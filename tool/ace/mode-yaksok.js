@@ -173,23 +173,26 @@ ace .define(
 		y .HighlightRules = YaksokHighlightRules 
 		y .foldingRules = new FoldMode( source ) 
 		y .lineCommentStart = '#' 
-		y .getNextLineIndent = function (state, line, tab) { 
-			 let indent = this .$getIndent(line) 
-			 let tokenizedLine = this .getTokenizer() .getLineTokens(line, state) 
-			 let tokens = tokenizedLine .tokens 
-			 if (tokens .length && tokens[tokens .length - 1] .type === 'comment') { 
-				  return indent 
-			 } 
-			 if (state === 'start') { 
-				  let match = line .match( 
-						/^(?:.*[\{\(\[]\s*|\s*(?:약속|만약|반복).*)$/ 
-				  ) 
-				  if (match) { 
-						indent += tab 
-				  } 
-			 } 
-			 return indent 
-		} 
+		y .getNextLineIndent = function ( state, line, tab ) { 
+			let indent = this .$getIndent( line ) 
+			let tokenizedLine = this .getTokenizer() .getLineTokens( line, state ) 
+			let tokens = tokenizedLine .tokens 
+			if ( 
+					   tokens .length 
+					&& tokens[ tokens .length - 1 ] .type === 'comment' 
+					) { 
+				return indent 
+				} 
+			if ( state === 'start' ) { 
+				let match = line .match( 
+					/^(?:.*[\{\(\[]\s*|\s*(?:약속|만약|반복).*)$/ 
+					) 
+				if ( match ) { 
+					indent += tab 
+					} 
+				} 
+			return indent 
+			} // -- y .getNextLineIndent 
 		// TODO: auto outdent 
 		
 		exports .Mode = YaksokMode 
