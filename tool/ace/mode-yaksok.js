@@ -29,9 +29,6 @@ ace .define(
 			let literalItems = ([ valueT ]) => valueT .match( /\S+/g ) 
 			let literalJoiner = ([ joinT ]) => ([ valueT ]) => 
 				valueT .match( /\S+/g ) .join( joinT ) 
-			let regJoins = ( ... regs ) => '' .concat( ... regs .map( r => 
-				r instanceof RegExp ? r .source : r 
-				) ) 
 			let keywordMapper = this .createKeywordMapper( new class { 
 				'support.function' = '보여주기' 
 				'constant.language.boolean' = literalJoiner `|` ` 참 거짓 ` 
@@ -64,6 +61,9 @@ ace .define(
 				} 
 			let tokenRegs = a => a .map( tokenPicker ) 
 			
+			let regJoins = ( ... regs ) => '' .concat( ... regs .map( r => 
+				r instanceof RegExp ? r .source : r 
+				) ) 
 			let start = tokenRegs([ 
 				  { 'comment' : /#.*$/ } 
 				, { 'constant.numeric' : [ r .i, r .h, r .f ] } 
