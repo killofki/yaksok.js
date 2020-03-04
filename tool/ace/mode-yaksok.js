@@ -169,8 +169,9 @@ ace .define(
 		oop .inherits( YaksokMode, Mode ) 
 		
 		let y = YaksokMode .prototype 
+		let { source } = /^\s*(?:약속(?!\s+그만)|만약|반복).*$/ 
 		y .HighlightRules = YaksokHighlightRules 
-		y .foldingRules = new FoldMode('^\\s*(?:약속(?!\\s+그만)|만약|반복).*$') 
+		y .foldingRules = new FoldMode( source ) 
 		y .lineCommentStart = '#' 
 		y .getNextLineIndent = function (state, line, tab) { 
 			 let indent = this .$getIndent(line) 
