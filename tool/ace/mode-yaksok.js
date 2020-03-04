@@ -69,84 +69,50 @@ ace .define(
 			
 			this .$rules = valuePipe( ([ p, a ]) => [ p, propertyMap( a ) ] ) ( new class { 
 				'start' = [ 
-					  new class { 'comment' = /#.*$/ } 
-					, new class { 'constant.numeric' = [ r .i, r .h, r .f ] } 
-					, new class { 
-						'string' = /'(?=.)/ 
-						next = 'qstring' 
-						} 
-					, new class { 
-						'string' = /"(?=.)/ 
-						next = 'qqstring' 
-						} 
-					, new class { 
-						'keyword.operator' = /^\s*\*{3}\s*$/ 
-						next = 'translate' 
-						} 
-					, new class { 'keyword.operator' = r .o } 
-					, new class { 'keyword' = /약속(?=\s+그만)/ } 
-					, new class { 
-						'storage.type' = /약속/ 
-						next =  'description' 
-						} 
-					, new class { 
-						token = literalItems ` 
+					  { 'comment' : /#.*$/ } 
+					, { 'constant.numeric' : [ r .i, r .h, r .f ] } 
+					, { 'string' : /'(?=.)/, next : 'qstring' } 
+					, { 'string' : /"(?=.)/, next : 'qqstring' } 
+					, { 'keyword.operator' : /^\s*\*{3}\s*$/, next : 'translate' } 
+					, { 'keyword.operator' : r .o } 
+					, { 'keyword' : /약속(?=\s+그만)/ } 
+					, { 'storage.type' : /약속/, next : 'description' } 
+					, { token : literalItems ` 
 							storage.type text 
 							paren.lparen text keyword text paren.rparen 
 							` 
-						regex = regJoins( /(번역)(\s*)(\()(\s*)/, `(${ r .id })`, /(\s*)(\))/ ) 
-						next = 'description' 
+						, regex : regJoins( /(번역)(\s*)(\()(\s*)/, `(${ r .id })`, /(\s*)(\))/ ) 
+						, next : 'description' 
 						} 
-					, new class { 
-						token = keywordMapper 
-						regex = r .id 
-						} 
-					, new class { 'constant.language' = /\(\s*\)/ } 
-					, new class { 'paren.lparen' =  /[\(\[\{]/ } 
-					, new class { 'paren.rparen' =  /[\)\]\}]/ } 
-					, new class { 'text' = /\s+/ } 
+					, { token : keywordMapper, regex = r .id } 
+					, { 'constant.language' : /\(\s*\)/ } 
+					, { 'paren.lparen' : /[\(\[\{]/ } 
+					, { 'paren.rparen' : /[\)\]\}]/ } 
+					, { 'text' : /\s+/ } 
 					]) 
 				'qstring' = [ 
-					  new class { 
-						'string' = /'|$/ 
-						next = 'start' 
-						} 
-					, new class { defaultToken = 'string' } 
+					  { 'string' : /'|$/, next = 'start' } 
+					, { defaultToken : 'string' } 
 					] 
 				'qqstring' = [ 
-					  new class { 
-						'string' = /"|$/ 
-						next = 'start' 
-						} 
-					, new class { defaultToken = 'string' } 
+					  { 'string' : /"|$/, next : 'start' } 
+					, { defaultToken : 'string' } 
 					] 
 				'description' = [ 
-					  new class { 'entity.name.function' = r .id } 
-					, new class { 
-						'paren.lparen' = /\(/ 
-						next =  'description_parameter' 
-						} 
-					, new class { 'paren.rparen' = /\)/ } 
-					, new class { 'keyword.operator' = /\// } 
-					, new class { 
-						'text' = '$' 
-						next = 'start' 
-						} 
-					, new clas { 'text' =  /\s+/ } 
+					  { 'entity.name.function' : r .id } 
+					, { 'paren.lparen' : /\(/, next =  'description_parameter' } 
+					, { 'paren.rparen' : /\)/ } 
+					, { 'keyword.operator' : /\// } 
+					, { 'text' : '$', next : 'start' } 
+					, { 'text' :  /\s+/ } 
 					] 
 				'description_parameter' = [ 
-					  new class { 
-						'variable.parameter' = r .id 
-						next = 'description' 
-						} 
-					, new class { 'text' = /\s+/ } 
+					  { 'variable.parameter' : r .id, next : 'description' } 
+					, { 'text' : /\s+/ } 
 					] 
 				'translate' = [ 
-					  new class { 
-						'keyword.operator' = /^\s*\*{3}/ 
-						next = 'start' 
-						} 
-					, new class { defaultToken = 'support.function' } 
+					  { 'keyword.operator' : /^\s*\*{3}/, next : 'start' } 
+					, { defaultToken :'support.function' } 
 					] 
 				} ) // -- this .$rules 
 			} // -- YaksokHighlightRules() 
