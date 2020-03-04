@@ -24,19 +24,15 @@ ace .define(
 		function valuePipe( F ) { return o => 
 			Object .fromEntries( Object .entries( o ) .map( F ) ) 
 			} 
-		function mapPipe( F ) { return a => a .map( F ) } 
-		
-		function literalItems([ valueT ]) { return valueT .match( /\S+/g ) } 
-		
-		function literalJoiner([ joinT ]) { return ([ valueT ]) => 
-			valueT .match( /\S+/g ) .join( joinT ) 
-			} 
-		
-		function regJoins( ... regs ) { return '' .concat( ... regs .map( r => 
-			r instanceof RegExp ? r .source : r 
-			) ) } 
 		
 		function YaksokHighlightRules() { 
+			let mapPipe = F => a => a .map( F ) 
+			let literalItems = ([ valueT ]) => valueT .match( /\S+/g ) 
+			let literalJoiner = ([ joinT ]) => ([ valueT ]) => 
+				valueT .match( /\S+/g ) .join( joinT ) 
+			let regJoins = ( ... regs ) => '' .concat( ... regs .map( r => 
+				r instanceof RegExp ? r .source : r 
+				) ) 
 			let keywordMapper = this .createKeywordMapper( new class { 
 				'support.function' = '보여주기' 
 				'constant.language.boolean' = literalJoiner `|` ` 참 거짓 ` 
