@@ -18,66 +18,66 @@ ace .define(
 			} 
 		
 		function YaksokHighlightRules() { 
-			 let keywordMapper = this.createKeywordMapper({ 
-					  'support.function': '보여주기', 
-					  'constant.language.boolean': '참|거짓', 
-					  'keyword': [ 
-							'약속', '번역', '결속', '만약', '반복', '그만', '다시', '이전', 
-							'이면', '이라면', '아니면', '아니라면', '아니면서', 
-							'이고', '그리고', '또는', '이거나', 
-							'바깥', '의', '마다' 
-					  ].join('|') 
-				 }, 'identifier') 
-			 this.$rules = { 
-				  'start': [ 
-						{ token: 'comment', regex: '#.*$' }, 
-						{ token: 'constant.numeric', regex: [r.i, r.h, r.f].join('|') }, 
-						{ token: 'string', regex: '\'(?=.)', next: 'qstring' }, 
-						{ token: 'string', regex: '\"(?=.)', next: 'qqstring' }, 
-						{ token: 'keyword.operator', regex: '^\\s*\\*{3}\\s*$', next: 'translate' }, 
-						{ token: 'keyword.operator', regex: r.o }, 
-						{ token: 'keyword', regex: '약속(?=\\s+그만)' }, 
-						{ token: 'storage.type', regex: '약속', next: 'description' }, 
-						{ 
-							 token: [ 
-								  'storage.type', 'text', 
-								  'paren.lparen', 'text', 'keyword', 'text', 'paren.rparen' 
-							 ], 
-							 regex: '(번역)(\\s*)(\\()(\\s*)(' + r.id + ')(\\s*)(\\))', 
-							 next: 'description' 
-						}, 
-						{ token: keywordMapper, regex: r.id }, 
-						{ token: 'constant.language', regex: '\\(\\s*\\)' }, 
-						{ token: 'paren.lparen', regex: '[\\(\\[\\{]' }, 
-						{ token: 'paren.rparen', regex: '[\\)\\]\\}]' }, 
-						{ token: 'text', regex: '\\s+' } 
-				  ], 
-				  'qstring': [ 
-						{ token: 'string', regex: '\'|$', next: 'start' }, 
-						{ defaultToken: 'string' } 
-				  ], 
-				  'qqstring': [ 
-						{ token: 'string', regex: '\"|$', next: 'start' }, 
-						{ defaultToken: 'string' } 
-				  ], 
-				  'description': [ 
-						{ token: 'entity.name.function', regex: r.id }, 
-						{ token: 'paren.lparen', regex: '\\(', next: 'description_parameter' }, 
-						{ token: 'paren.rparen', regex: '\\)' }, 
-						{ token: 'keyword.operator', regex: '\\/' }, 
-						{ token: 'text', regex: '$', next: 'start' }, 
-						{ token: 'text', regex: '\\s+' } 
-				  ], 
-				  'description_parameter': [ 
-						{ token: 'variable.parameter', regex: r.id, next: 'description' }, 
-						{ token: 'text', regex: '\\s+' } 
-				  ], 
-				  'translate': [ 
-						{ token: 'keyword.operator', regex: '^\\s*\\*{3}', next: 'start' }, 
-						{ defaultToken: 'support.function' } 
-				  ] 
-			 } 
-		} 
+			let keywordMapper = this .createKeywordMapper( new class { 
+				'support.function' = '보여주기' 
+				'constant.language.boolean' = '참|거짓' 
+				'keyword' = [ 
+					'약속', '번역', '결속', '만약', '반복', '그만', '다시', '이전', 
+					'이면', '이라면', '아니면', '아니라면', '아니면서', 
+					'이고', '그리고', '또는', '이거나', 
+					'바깥', '의', '마다' 
+					] .join('|') 
+				}, 'identifier' ) 
+			this .$rules = { 
+			  'start': [ 
+					{ token: 'comment', regex: '#.*$' }, 
+					{ token: 'constant.numeric', regex: [r.i, r.h, r.f].join('|') }, 
+					{ token: 'string', regex: '\'(?=.)', next: 'qstring' }, 
+					{ token: 'string', regex: '\"(?=.)', next: 'qqstring' }, 
+					{ token: 'keyword.operator', regex: '^\\s*\\*{3}\\s*$', next: 'translate' }, 
+					{ token: 'keyword.operator', regex: r.o }, 
+					{ token: 'keyword', regex: '약속(?=\\s+그만)' }, 
+					{ token: 'storage.type', regex: '약속', next: 'description' }, 
+					{ 
+						 token: [ 
+							  'storage.type', 'text', 
+							  'paren.lparen', 'text', 'keyword', 'text', 'paren.rparen' 
+						 ], 
+						 regex: '(번역)(\\s*)(\\()(\\s*)(' + r.id + ')(\\s*)(\\))', 
+						 next: 'description' 
+					}, 
+					{ token: keywordMapper, regex: r.id }, 
+					{ token: 'constant.language', regex: '\\(\\s*\\)' }, 
+					{ token: 'paren.lparen', regex: '[\\(\\[\\{]' }, 
+					{ token: 'paren.rparen', regex: '[\\)\\]\\}]' }, 
+					{ token: 'text', regex: '\\s+' } 
+			  ], 
+			  'qstring': [ 
+					{ token: 'string', regex: '\'|$', next: 'start' }, 
+					{ defaultToken: 'string' } 
+			  ], 
+			  'qqstring': [ 
+					{ token: 'string', regex: '\"|$', next: 'start' }, 
+					{ defaultToken: 'string' } 
+			  ], 
+			  'description': [ 
+					{ token: 'entity.name.function', regex: r.id }, 
+					{ token: 'paren.lparen', regex: '\\(', next: 'description_parameter' }, 
+					{ token: 'paren.rparen', regex: '\\)' }, 
+					{ token: 'keyword.operator', regex: '\\/' }, 
+					{ token: 'text', regex: '$', next: 'start' }, 
+					{ token: 'text', regex: '\\s+' } 
+			  ], 
+			  'description_parameter': [ 
+					{ token: 'variable.parameter', regex: r.id, next: 'description' }, 
+					{ token: 'text', regex: '\\s+' } 
+			  ], 
+			  'translate': [ 
+					{ token: 'keyword.operator', regex: '^\\s*\\*{3}', next: 'start' }, 
+					{ defaultToken: 'support.function' } 
+			  ] 
+			} 
+			} 
 		oop.inherits(YaksokHighlightRules, TextHighlightRules) 
 		
 		exports.YaksokHighlightRules = YaksokHighlightRules 
