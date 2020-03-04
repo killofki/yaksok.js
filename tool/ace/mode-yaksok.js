@@ -168,7 +168,7 @@ ace .define(
 		
 		let y = YaksokMode .prototype 
 		let { source } = /^\s*(?:약속(?!\s+그만)|만약|반복).*$/ 
-		Object .assign( YaksokMode .prototye, new class { 
+		Object .assign( YaksokMode .prototype, new class { 
 			HighlightRules = YaksokHighlightRules 
 			foldingRules = new FoldMode( source ) 
 			lineCommentStart = '#' 
