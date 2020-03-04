@@ -67,9 +67,7 @@ ace .define(
 				return { token, regex, ... nexto } 
 				}) 
 			
-			this .$rules = valuePipe( ([ p, a ]) => 
-					[ p, propertyMap( a ) ] 
-					) ( new class { 
+			this .$rules = valuePipe( ([ p, a ]) => [ p, propertyMap( a ) ] ) ( new class { 
 				'start' = [ 
 					  new class { 'comment' = /#.*$/ } 
 					, new class { 'constant.numeric' = [ r .i, r .h, r .f ] } 
