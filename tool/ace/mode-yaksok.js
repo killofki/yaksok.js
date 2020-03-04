@@ -80,52 +80,50 @@ ace .define(
 		oop.inherits(YaksokHighlightRules, TextHighlightRules) 
 		
 		exports.YaksokHighlightRules = YaksokHighlightRules 
+		} 
+	) // -- ace .define 
+
+ace .define( 
+	  'ace/mode/yaksok' 
+	, [ 
+		  'require', 'exports', 'module' 
+		, 'ace/lib/oop', 'ace/mode/text', 'ace/mode/folding/pythonic', 'ace/range' 
+		] 
+	, function ( require, exports, module ) { 
 		
 		
-} 
-) 
-
-ace.define( 
-'ace/mode/yaksok', 
-[   'require', 'exports', 'module', 
-    'ace/lib/oop', 'ace/mode/text', 'ace/mode/folding/pythonic', 'ace/range' 
-], 
-function (require, exports, module) { 
-
-
-var oop = require('../lib/oop') 
-var TextMode = require('./text').Mode 
-var PythonFoldMode = require('./folding/pythonic').FoldMode 
-var YaksokHighlightRules = require('./yaksok_highlight_rules').YaksokHighlightRules 
-
-function YaksokMode() {} 
-oop.inherits(YaksokMode, TextMode) 
-
-var y = YaksokMode.prototype 
-y.HighlightRules = YaksokHighlightRules 
-y.foldingRules = new PythonFoldMode('^\\s*(?:약속(?!\\s+그만)|만약|반복).*$') 
-y.lineCommentStart = '#' 
-y.getNextLineIndent = function (state, line, tab) { 
-    var indent = this.$getIndent(line) 
-    var tokenizedLine = this.getTokenizer().getLineTokens(line, state) 
-    var tokens = tokenizedLine.tokens 
-    if (tokens.length && tokens[tokens.length - 1].type === 'comment') { 
-        return indent 
-    } 
-    if (state === 'start') { 
-        var match = line.match( 
-            /^(?:.*[\{\(\[]\s*|\s*(?:약속|만약|반복).*)$/ 
-        ) 
-        if (match) { 
-            indent += tab 
-        } 
-    } 
-    return indent 
-} 
-// TODO: auto outdent 
-
-exports.Mode = YaksokMode 
-
-
-} 
-) 
+		var oop = require('../lib/oop') 
+		var TextMode = require('./text').Mode 
+		var PythonFoldMode = require('./folding/pythonic').FoldMode 
+		var YaksokHighlightRules = require('./yaksok_highlight_rules').YaksokHighlightRules 
+		
+		function YaksokMode() {} 
+		oop.inherits(YaksokMode, TextMode) 
+		
+		var y = YaksokMode.prototype 
+		y.HighlightRules = YaksokHighlightRules 
+		y.foldingRules = new PythonFoldMode('^\\s*(?:약속(?!\\s+그만)|만약|반복).*$') 
+		y.lineCommentStart = '#' 
+		y.getNextLineIndent = function (state, line, tab) { 
+			 var indent = this.$getIndent(line) 
+			 var tokenizedLine = this.getTokenizer().getLineTokens(line, state) 
+			 var tokens = tokenizedLine.tokens 
+			 if (tokens.length && tokens[tokens.length - 1].type === 'comment') { 
+				  return indent 
+			 } 
+			 if (state === 'start') { 
+				  var match = line.match( 
+						/^(?:.*[\{\(\[]\s*|\s*(?:약속|만약|반복).*)$/ 
+				  ) 
+				  if (match) { 
+						indent += tab 
+				  } 
+			 } 
+			 return indent 
+		} 
+		// TODO: auto outdent 
+		
+		exports.Mode = YaksokMode 
+		
+		} 
+	) // -- ace .define 
