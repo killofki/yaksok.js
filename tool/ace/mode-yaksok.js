@@ -26,7 +26,6 @@ ace .define(
 			} 
 		
 		function YaksokHighlightRules() { 
-			let mapPipe = F => a => a .map( F ) 
 			let literalItems = ([ valueT ]) => valueT .match( /\S+/g ) 
 			let literalJoiner = ([ joinT ]) => ([ valueT ]) => 
 				valueT .match( /\S+/g ) .join( joinT ) 
@@ -43,6 +42,7 @@ ace .define(
 					바깥 의 마다 
 					` 
 				}, 'identifier' ) 
+			let mapPipe = F => a => a .map( F ) 
 			let tokenRegs = mapPipe( vv => { 
 				let { defaultToken, token, regex, next, ... vo } = vv 
 				if ( defaultToken ) { 
