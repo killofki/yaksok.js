@@ -8,20 +8,23 @@ ace .define(
 		
 		let oop = require('../lib/oop') 
 		let { TextHighlightRules } = require('./text_highlight_rules') 
-		
-		let r = new class { 
-			i = '(?:(?:[1-9]\\d*)|(?:0))' // integer 
-			h = '(?:0[xX][0-9a-fA-F]+)' // hex 
-			f = '(?:\\d*\\.?\\d+(?:[Ee](?:[+-]?\\d+)?)?)' // float 
-			id = '(?:[$_a-zA-Z가-힣][$_a-zA-Z가-힣0-9]*)' // identifier 
-			o = '(?:!=|>=|<=|\\.|\\-|\\/|[~:+*%><])' // operators 
-			} 
+		let r = valuePipe( ([ p, v ]) => [ p, v .src ] ) ( new class { 
+			i = /(?:(?:[1-9]\d*)|(?:0))/
+			h = /(?:0[xX][0-9a-fA-F]+)/
+			f = /(?:\d*\.?\d+(?:[Ee](?:[+-]?\d+)?)?)/
+			id = /(?:[$_a-zA-Z가-힣][$_a-zA-Z가-힣0-9]*)/
+			o = /(?:!=|>=|<=|\.|\-|\/|[~:+*%><])/
+			} ) 
 		
 		oop .inherits( YaksokHighlightRules, TextHighlightRules ) 
 		
 		exports .YaksokHighlightRules = YaksokHighlightRules 
 		
 		// .. functions .. 
+		
+		function valuePipe( F ) { return o => 
+			Object .fromEntries( Object .entries( o ) .map( F ) ) 
+			} 
 		
 		function literalJoiner([ joinT ]) { return ([ valueT ]) => 
 			valueT .match( /\S+/g ) .join( joinT ) 
