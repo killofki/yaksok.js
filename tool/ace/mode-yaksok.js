@@ -7,7 +7,7 @@ ace .define(
 	, ( require, exports, module ) => { 
 		
 		let oop = require('../lib/oop') 
-		let TextHighlightRules = require('./text_highlight_rules') .TextHighlightRules 
+		let { TextHighlightRules } = require('./text_highlight_rules') 
 		
 		let r = new class { 
 			i = '(?:(?:[1-9]\\d*)|(?:0))' // integer 
@@ -17,19 +17,29 @@ ace .define(
 			o = '(?:!=|>=|<=|\\.|\\-|\\/|[~:+*%><])' // operators 
 			} 
 		
+		oop .inherits( YaksokHighlightRules, TextHighlightRules ) 
+		
+		exports .YaksokHighlightRules = YaksokHighlightRules 
+		
+		// .. functions .. 
+		
+		function literalJoin([ joinT ]) { return ([ valueT ]) => 
+			valueT .match( /\S+/g ) .join( joinT ) 
+			} 
+		
 		function YaksokHighlightRules() { 
 			let keywordMapper = this .createKeywordMapper( new class { 
 				'support.function' = '보여주기' 
-				'constant.language.boolean' = '참|거짓' 
-				'keyword' = [ 
-					'약속', '번역', '결속', '만약', '반복', '그만', '다시', '이전', 
-					'이면', '이라면', '아니면', '아니라면', '아니면서', 
-					'이고', '그리고', '또는', '이거나', 
-					'바깥', '의', '마다' 
-					] .join('|') 
+				'constant.language.boolean' = literalJoin `|` ` 참 거짓 ` 
+				'keyword' = literalJoin `|` ` 
+					약속 번역 결속 만약 반복 그만 다시 이전 
+					이면 이라면 아니면 아니라면 아니면서 
+					이고 그리고 또는 이거나 
+					바깥 의 마다 
+					` 
 				}, 'identifier' ) 
-			this .$rules = { 
-			  'start': [ 
+			this .$rules = new class { 
+				'start' = [ 
 					{ token: 'comment', regex: '#.*$' }, 
 					{ token: 'constant.numeric', regex: [r.i, r.h, r.f].join('|') }, 
 					{ token: 'string', regex: '\'(?=.)', next: 'qstring' }, 
@@ -51,36 +61,33 @@ ace .define(
 					{ token: 'paren.lparen', regex: '[\\(\\[\\{]' }, 
 					{ token: 'paren.rparen', regex: '[\\)\\]\\}]' }, 
 					{ token: 'text', regex: '\\s+' } 
-			  ], 
-			  'qstring': [ 
+					] 
+				'qstring' = [ 
 					{ token: 'string', regex: '\'|$', next: 'start' }, 
 					{ defaultToken: 'string' } 
-			  ], 
-			  'qqstring': [ 
+					] 
+				'qqstring' = [ 
 					{ token: 'string', regex: '\"|$', next: 'start' }, 
 					{ defaultToken: 'string' } 
-			  ], 
-			  'description': [ 
+					] 
+				'description' = [ 
 					{ token: 'entity.name.function', regex: r.id }, 
 					{ token: 'paren.lparen', regex: '\\(', next: 'description_parameter' }, 
 					{ token: 'paren.rparen', regex: '\\)' }, 
 					{ token: 'keyword.operator', regex: '\\/' }, 
 					{ token: 'text', regex: '$', next: 'start' }, 
 					{ token: 'text', regex: '\\s+' } 
-			  ], 
-			  'description_parameter': [ 
+					] 
+				'description_parameter' = [ 
 					{ token: 'variable.parameter', regex: r.id, next: 'description' }, 
 					{ token: 'text', regex: '\\s+' } 
-			  ], 
-			  'translate': [ 
+					] 
+				'translate' = [ 
 					{ token: 'keyword.operator', regex: '^\\s*\\*{3}', next: 'start' }, 
 					{ defaultToken: 'support.function' } 
-			  ] 
-			} 
-			} 
-		oop.inherits(YaksokHighlightRules, TextHighlightRules) 
-		
-		exports.YaksokHighlightRules = YaksokHighlightRules 
+					] 
+				} // -- this .$rules 
+			} // -- YaksokHighlightRules() 
 		} 
 	) // -- ace .define 
 
