@@ -108,7 +108,7 @@ ace .define(
 					] 
 				'translate' = [ 
 					  { 'keyword.operator' : /^\s*\*{3}/, next : 'start' } 
-					, { defaultToken :'support.function' } 
+					, { defaultToken : 'support.function' } 
 					] 
 				} ) // -- this .$rules 
 			} // -- YaksokHighlightRules() 
