@@ -170,10 +170,12 @@ ace .define(
 		
 		let y = YaksokMode .prototype 
 		let { source } = /^\s*(?:약속(?!\s+그만)|만약|반복).*$/ 
-		y .HighlightRules = YaksokHighlightRules 
-		y .foldingRules = new FoldMode( source ) 
-		y .lineCommentStart = '#' 
-		y .getNextLineIndent = getNextLineIndent 
+		Object .assign( YaksokMode .prototye, new class { 
+			HighlightRules = YaksokHighlightRules 
+			foldingRules = new FoldMode( source ) 
+			lineCommentStart = '#' 
+			getNextLineIndent = getNextLineIndent 
+			} ) 
 		
 		exports .Mode = YaksokMode 
 		
