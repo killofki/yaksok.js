@@ -134,7 +134,6 @@ ace .define(
 		function YaksokMode() {} 
 		oop .inherits( YaksokMode, Mode ) 
 		
-		let y = YaksokMode .prototype 
 		let { source } = /^\s*(?:약속(?!\s+그만)|만약|반복).*$/ 
 		Object .assign( YaksokMode .prototype, new class { 
 			HighlightRules = YaksokHighlightRules 
@@ -166,7 +165,7 @@ ace .define(
 					} 
 				} 
 			return indent 
-			} // -- y .getNextLineIndent 
+			} // -- getNextLineIndent() 
 		// TODO: auto outdent 
 		
 		} // -- ( require, exports, module ) 
