@@ -161,16 +161,16 @@ ace .define(
 	, ( require, exports, module ) => { 
 		
 		let oop = require('../lib/oop') 
-		let TextMode = require('./text') .Mode 
-		let PythonFoldMode = require('./folding/pythonic') .FoldMode 
-		let YaksokHighlightRules = require('./yaksok_highlight_rules') .YaksokHighlightRules 
+		let { Mode } = require('./text') 
+		let { FoldMode } = require('./folding/pythonic') 
+		let { YaksokHighlightRules } = require('./yaksok_highlight_rules') 
 		
 		function YaksokMode() {} 
-		oop .inherits( YaksokMode, TextMode ) 
+		oop .inherits( YaksokMode, Mode ) 
 		
 		let y = YaksokMode .prototype 
 		y .HighlightRules = YaksokHighlightRules 
-		y .foldingRules = new PythonFoldMode('^\\s*(?:약속(?!\\s+그만)|만약|반복).*$') 
+		y .foldingRules = new FoldMode('^\\s*(?:약속(?!\\s+그만)|만약|반복).*$') 
 		y .lineCommentStart = '#' 
 		y .getNextLineIndent = function (state, line, tab) { 
 			 let indent = this .$getIndent(line) 
