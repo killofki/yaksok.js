@@ -1,6 +1,5 @@
 ace .define( 
-	  'ace/mode/yaksok_highlight_rules' 
-	, [ 
+	  'ace/mode/yaksok_highlight_rules', [ 
 		  'require', 'exports', 'module' 
 		, 'ace/lib/oop', 'ace/mode/text_highlight_rules' 
 		] 
@@ -153,8 +152,7 @@ ace .define(
 	) // -- ace .define 
 
 ace .define( 
-	  'ace/mode/yaksok' 
-	, [ 
+	  'ace/mode/yaksok', [ 
 		  'require', 'exports', 'module' 
 		, 'ace/lib/oop', 'ace/mode/text', 'ace/mode/folding/pythonic', 'ace/range' 
 		] 
