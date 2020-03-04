@@ -44,7 +44,10 @@ ace .define(
 				}, 'identifier' ) 
 			this .$rules = new class { 
 				'start' = mapPipe( vv => { 
-						let { token, regex, next, ... vo } = vv 
+						let { defaultToken, token, regex, next, ... vo } = vv 
+						if ( defaultToken ) { 
+							return { defaultToken } 
+							} 
 						let nexto = ( next ?? {} ) || { next } 
 						token ?? ( [ token, regex ] = Object .entries( vo ) ) 
 						
@@ -86,29 +89,6 @@ ace .define(
 					, new class { 'paren.rparen' =  '[\\)\\]\\}]' } 
 					, new class { 'text' = '\\s+' } 
 					]) 
-				'start' = [ 
-					{ token: 'comment', regex: '#.*$' }, 
-					{ token: 'constant.numeric', regex: [r.i, r.h, r.f].join('|') }, 
-					{ token: 'string', regex: '\'(?=.)', next: 'qstring' }, 
-					{ token: 'string', regex: '\"(?=.)', next: 'qqstring' }, 
-					{ token: 'keyword.operator', regex: '^\\s*\\*{3}\\s*$', next: 'translate' }, 
-					{ token: 'keyword.operator', regex: r.o }, 
-					{ token: 'keyword', regex: '약속(?=\\s+그만)' }, 
-					{ token: 'storage.type', regex: '약속', next: 'description' }, 
-					{ 
-						 token: [ 
-							  'storage.type', 'text', 
-							  'paren.lparen', 'text', 'keyword', 'text', 'paren.rparen' 
-						 ], 
-						 regex: '(번역)(\\s*)(\\()(\\s*)(' + r.id + ')(\\s*)(\\))', 
-						 next: 'description' 
-					}, 
-					{ token: keywordMapper, regex: r.id }, 
-					{ token: 'constant.language', regex: '\\(\\s*\\)' }, 
-					{ token: 'paren.lparen', regex: '[\\(\\[\\{]' }, 
-					{ token: 'paren.rparen', regex: '[\\)\\]\\}]' }, 
-					{ token: 'text', regex: '\\s+' } 
-					] 
 				'qstring' = [ 
 					{ token: 'string', regex: '\'|$', next: 'start' }, 
 					{ defaultToken: 'string' } 
