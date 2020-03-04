@@ -73,7 +73,8 @@ ace .define(
 					, new class { 'keyword' = '약속(?=\\s+그만)' } 
 					, new class { 
 						'storage.type' = '약속' 
-						next =  'description' } 
+						next =  'description' 
+						} 
 					, new class { 
 						token = literalItems ` 
 							storage.type text 
