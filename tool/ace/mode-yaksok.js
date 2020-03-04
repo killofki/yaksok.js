@@ -62,8 +62,7 @@ ace .define(
 				
 				return { token, regex, ... nexto } 
 				} 
-			let mapPipe = F => a => a .map( F ) 
-			let tokenRegs = mapPipe( tokenPicker ) 
+			let tokenRegs = a => a .map( tokenPicker ) 
 			
 			let start = tokenRegs([ 
 				  { 'comment' : /#.*$/ } 
