@@ -60,10 +60,10 @@ ace .define(
 				return { token, regex, ... nexto } 
 				} 
 			let tokenRegs = a => a .map( tokenPicker ) 
-			
 			let regJoins = ( ... regs ) => '' .concat( ... regs .map( r => 
 				r instanceof RegExp ? r .source : r 
 				) ) 
+			
 			let start = tokenRegs([ 
 				  { 'comment' : /#.*$/ } 
 				, { 'constant.numeric' : [ r .i, r .h, r .f ] } 
