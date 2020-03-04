@@ -48,7 +48,7 @@ ace .define(
 					` 
 				}, 'identifier' ) 
 			this .$rules = valuePipe( ([ p, a ]) => 
-					mapPipe( vv => { 
+					[ p, mapPipe( vv => { 
 						let { defaultToken, token, regex, next, ... vo } = vv 
 						if ( defaultToken ) { 
 							return { defaultToken } 
@@ -66,7 +66,7 @@ ace .define(
 							} 
 						
 						return { token, regex, ... nexto } 
-						}) ( a ) 
+						}) ( a ) ] 
 					) ( new class { 
 				'start' = [ 
 					  new class { 'comment' = /#.*$/ } 
