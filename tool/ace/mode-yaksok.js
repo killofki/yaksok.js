@@ -27,8 +27,10 @@ ace .define(
 			} 
 		function mapPipe( F ) { return a => a .map( F ) } 
 		
+		function literalItems([ valueT ]) { return valueT .match( /\S+/g ) } 
+		
 		function literalJoiner([ joinT ]) { return ([ valueT ]) => 
-			valueT .match( /\S+/g ) .join( joinT ) 
+			litealItems([ valueT ]) .join( joinT ) 
 			} 
 		
 		function YaksokHighlightRules() { 
