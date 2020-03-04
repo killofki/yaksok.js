@@ -47,25 +47,27 @@ ace .define(
 					바깥 의 마다 
 					` 
 				}, 'identifier' ) 
-			this .$rules = valuePipe( ([ p, a ]) => mapPipe( vv => { 
-					let { defaultToken, token, regex, next, ... vo } = vv 
-					if ( defaultToken ) { 
-						return { defaultToken } 
-						} 
-					let nexto = ( next ?? {} ) || { next } 
-					token ?? ( [ token, regex ] = Object .entries( vo ) ) 
-					
-					switch( true ) { 
-						case regex instanceof RegExp : 
-							regex = regex .source 
-							break 
-						case regex instanceof Array : 
-							regex = regex .join('|') 
-							break 
-						} 
-					
-					return { token, regex, ... nexto } 
-					}) ( a ) ) ( new class { 
+			this .$rules = valuePipe( ([ p, a ]) => 
+					mapPipe( vv => { 
+						let { defaultToken, token, regex, next, ... vo } = vv 
+						if ( defaultToken ) { 
+							return { defaultToken } 
+							} 
+						let nexto = ( next ?? {} ) || { next } 
+						token ?? ( [ token, regex ] = Object .entries( vo ) ) 
+						
+						switch( true ) { 
+							case regex instanceof RegExp : 
+								regex = regex .source 
+								break 
+							case regex instanceof Array : 
+								regex = regex .join('|') 
+								break 
+							} 
+						
+						return { token, regex, ... nexto } 
+						}) ( a ) 
+					) ( new class { 
 				'start' = [ 
 					  new class { 'comment' = /#.*$/ } 
 					, new class { 'constant.numeric' = [ r .i, r .h, r .f ] } 
