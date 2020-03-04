@@ -63,54 +63,56 @@ ace .define(
 				return { token, regex, ... nexto } 
 				}) 
 			
-			this .$rules = valuePipe( ([ p, a ]) => [ p, tokenRegs( a ) ] ) ( new class { 
-				'start' = [ 
-					  { 'comment' : /#.*$/ } 
-					, { 'constant.numeric' : [ r .i, r .h, r .f ] } 
-					, { 'string' : /'(?=.)/, next : 'qstring' } 
-					, { 'string' : /"(?=.)/, next : 'qqstring' } 
-					, { 'keyword.operator' : /^\s*\*{3}\s*$/, next : 'translate' } 
-					, { 'keyword.operator' : r .o } 
-					, { 'keyword' : /약속(?=\s+그만)/ } 
-					, { 'storage.type' : /약속/, next : 'description' } 
-					, { token : literalItems ` 
-							storage.type text 
-							paren.lparen text keyword text paren.rparen 
-							` 
-						, regex : regJoins( /(번역)(\s*)(\()(\s*)/, `(${ r .id })`, /(\s*)(\))/ ) 
-						, next : 'description' 
-						} 
-					, { token : keywordMapper, regex = r .id } 
-					, { 'constant.language' : /\(\s*\)/ } 
-					, { 'paren.lparen' : /[\(\[\{]/ } 
-					, { 'paren.rparen' : /[\)\]\}]/ } 
-					, { 'text' : /\s+/ } 
-					]) 
-				'qstring' = [ 
-					  { 'string' : /'|$/, next = 'start' } 
-					, { defaultToken : 'string' } 
-					] 
-				'qqstring' = [ 
-					  { 'string' : /"|$/, next : 'start' } 
-					, { defaultToken : 'string' } 
-					] 
-				'description' = [ 
-					  { 'entity.name.function' : r .id } 
-					, { 'paren.lparen' : /\(/, next =  'description_parameter' } 
-					, { 'paren.rparen' : /\)/ } 
-					, { 'keyword.operator' : /\// } 
-					, { 'text' : '$', next : 'start' } 
-					, { 'text' :  /\s+/ } 
-					] 
-				'description_parameter' = [ 
-					  { 'variable.parameter' : r .id, next : 'description' } 
-					, { 'text' : /\s+/ } 
-					] 
-				'translate' = [ 
-					  { 'keyword.operator' : /^\s*\*{3}/, next : 'start' } 
-					, { defaultToken : 'support.function' } 
-					] 
-				} ) // -- this .$rules 
+			let start = [ 
+				  { 'comment' : /#.*$/ } 
+				, { 'constant.numeric' : [ r .i, r .h, r .f ] } 
+				, { 'string' : /'(?=.)/, next : 'qstring' } 
+				, { 'string' : /"(?=.)/, next : 'qqstring' } 
+				, { 'keyword.operator' : /^\s*\*{3}\s*$/, next : 'translate' } 
+				, { 'keyword.operator' : r .o } 
+				, { 'keyword' : /약속(?=\s+그만)/ } 
+				, { 'storage.type' : /약속/, next : 'description' } 
+				, { token : literalItems ` 
+						storage.type text 
+						paren.lparen text keyword text paren.rparen 
+						` 
+					, regex : regJoins( /(번역)(\s*)(\()(\s*)/, `(${ r .id })`, /(\s*)(\))/ ) 
+					, next : 'description' 
+					} 
+				, { token : keywordMapper, regex = r .id } 
+				, { 'constant.language' : /\(\s*\)/ } 
+				, { 'paren.lparen' : /[\(\[\{]/ } 
+				, { 'paren.rparen' : /[\)\]\}]/ } 
+				, { 'text' : /\s+/ } 
+				]) 
+			let qstring = [ 
+				  { 'string' : /'|$/, next = 'start' } 
+				, { defaultToken : 'string' } 
+				] 
+			let qqstring = [ 
+				  { 'string' : /"|$/, next : 'start' } 
+				, { defaultToken : 'string' } 
+				] 
+			let description = [ 
+				  { 'entity.name.function' : r .id } 
+				, { 'paren.lparen' : /\(/, next =  'description_parameter' } 
+				, { 'paren.rparen' : /\)/ } 
+				, { 'keyword.operator' : /\// } 
+				, { 'text' : '$', next : 'start' } 
+				, { 'text' :  /\s+/ } 
+				] 
+			let description_parameter = [ 
+				  { 'variable.parameter' : r .id, next : 'description' } 
+				, { 'text' : /\s+/ } 
+				] 
+			let translate = [ 
+				  { 'keyword.operator' : /^\s*\*{3}/, next : 'start' } 
+				, { defaultToken : 'support.function' } 
+				] 
+			
+			this .$rules = valuePipe( ([ p, a ]) => [ p, tokenRegs( a ) ] ) ( { 
+				start, qstring, qqstring, description, description_parameter, translate 
+				} ) 
 			} // -- YaksokHighlightRules() 
 		} // -- ( require, exports, module ) 
 	) // -- ace .define 
