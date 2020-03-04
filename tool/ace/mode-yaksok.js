@@ -52,31 +52,36 @@ ace .define(
 					let nexto = ( next ?? {} ) || { next } 
 					token ?? ( [ token, regex ] = Object .entries( vo ) ) 
 					
-					  regex instanceof RegExp ? ( regex = regex .source ) 
-					: regex instanceof Array ? ( regex = regex .join('|') ) 
-					: 0 
+					switch( true ) { 
+						case regex instanceof RegExp : 
+							regex = regex .source 
+							break 
+						case regex instanceof Array : 
+							regex = regex .join('|') 
+							break 
+						} 
 					
 					return { token, regex, ... nexto } 
 					}) ( a ) ) ( new class { 
 				'start' = [ 
-					  new class { 'comment' = '#.*$' } 
-					, new class { 'constant.numeric' = [ r .i, r .h, r .f ] .join('|') } 
+					  new class { 'comment' = /#.*$/ } 
+					, new class { 'constant.numeric' = [ r .i, r .h, r .f ] } 
 					, new class { 
-						'string' = '\'(?=.)' 
+						'string' = /'(?=.)/ 
 						next = 'qstring' 
 						} 
 					, new class { 
-						'string' = '\"(?=.)' 
+						'string' = /"(?=.)/ 
 						next = 'qqstring' 
 						} 
 					, new class { 
-						'keyword.operator' = '^\\s*\\*{3}\\s*$' 
+						'keyword.operator' = /^\s*\*{3}\s*$/ 
 						next = 'translate' 
 						} 
 					, new class { 'keyword.operator' = r .o } 
-					, new class { 'keyword' = '약속(?=\\s+그만)' } 
+					, new class { 'keyword' = /약속(?=\s+그만)/ } 
 					, new class { 
-						'storage.type' = '약속' 
+						'storage.type' = /약속/ 
 						next =  'description' 
 						} 
 					, new class { 
