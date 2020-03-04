@@ -4,17 +4,18 @@ ace .define(
 		  'require', 'exports', 'module' 
 		, 'ace/lib/oop', 'ace/mode/text_highlight_rules' 
 		] 
-	, function ( require, exports, module ) { 
+	, ( require, exports, module ) => { 
 		
 		let oop = require('../lib/oop') 
 		let TextHighlightRules = require('./text_highlight_rules') .TextHighlightRules 
 		
-		let r = {} 
-		r.i = '(?:(?:[1-9]\\d*)|(?:0))' // integer 
-		r.h = '(?:0[xX][0-9a-fA-F]+)' // hex 
-		r.f = '(?:\\d*\\.?\\d+(?:[Ee](?:[+-]?\\d+)?)?)' // float 
-		r.id = '(?:[$_a-zA-Z가-힣][$_a-zA-Z가-힣0-9]*)' // identifier 
-		r.o = '(?:!=|>=|<=|\\.|\\-|\\/|[~:+*%><])' // operators 
+		let r = new class { 
+			i = '(?:(?:[1-9]\\d*)|(?:0))' // integer 
+			h = '(?:0[xX][0-9a-fA-F]+)' // hex 
+			f = '(?:\\d*\\.?\\d+(?:[Ee](?:[+-]?\\d+)?)?)' // float 
+			id = '(?:[$_a-zA-Z가-힣][$_a-zA-Z가-힣0-9]*)' // identifier 
+			o = '(?:!=|>=|<=|\\.|\\-|\\/|[~:+*%><])' // operators 
+			} 
 		
 		function YaksokHighlightRules() { 
 			 let keywordMapper = this.createKeywordMapper({ 
@@ -89,7 +90,7 @@ ace .define(
 		  'require', 'exports', 'module' 
 		, 'ace/lib/oop', 'ace/mode/text', 'ace/mode/folding/pythonic', 'ace/range' 
 		] 
-	, function ( require, exports, module ) { 
+	, ( require, exports, module ) => { 
 		
 		let oop = require('../lib/oop') 
 		let TextMode = require('./text') .Mode 
