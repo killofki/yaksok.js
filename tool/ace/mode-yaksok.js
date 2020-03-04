@@ -25,6 +25,7 @@ ace .define(
 		function valuePipe( F ) { return o => 
 			Object .fromEntries( Object .entries( o ) .map( F ) ) 
 			} 
+		function mapPipe( F ) { return a => a .map( F ) } 
 		
 		function literalJoiner([ joinT ]) { return ([ valueT ]) => 
 			valueT .match( /\S+/g ) .join( joinT ) 
@@ -42,6 +43,48 @@ ace .define(
 					` 
 				}, 'identifier' ) 
 			this .$rules = new class { 
+				'start' = mapPipe( vv => { 
+						let { token, regex, next, ... vo } = vv 
+						let nexto = ( next ?? {} ) || { next } 
+						token ?? ( [ token, regex ] = Object .entries( vo ) ) 
+						return { token, regex, ... nexto } 
+						} ) ([ 
+					  new class { 'comment' = '#.*$' } 
+					, new class { 'constant.numeric' = [ r .i, r .h, r .f ] .join('|') } 
+					, new class { 
+						'string' = '\'(?=.)' 
+						next = 'qstring' 
+						} 
+					, new class { 
+						'string' = '\"(?=.)' 
+						next = 'qqstring' 
+						} 
+					, new class { 
+						'keyword.operator' = '^\\s*\\*{3}\\s*$' 
+						next = 'translate' 
+						} 
+					, new class { 'keyword.operator' = r .o } 
+					, new class { 'keyword' = '약속(?=\\s+그만)' } 
+					, new class { 
+						'storage.type' = '약속' 
+						next =  'description' } 
+					, new class { 
+						token = [ 
+							'storage.type', 'text', 
+							'paren.lparen', 'text', 'keyword', 'text', 'paren.rparen' 
+							] 
+						regex = '(번역)(\\s*)(\\()(\\s*)(' + r.id + ')(\\s*)(\\))' 
+						next = 'description' 
+						} 
+					, new class { 
+						token = keywordMapper 
+						regex = r .id 
+						} 
+					, new class { 'constant.language' = '\\(\\s*\\)' } 
+					, new class { 'paren.lparen' =  '[\\(\\[\\{]' } 
+					, new class { 'paren.rparen' =  '[\\)\\]\\}]' } 
+					, new class { 'text' = '\\s+' } 
+					]) 
 				'start' = [ 
 					{ token: 'comment', regex: '#.*$' }, 
 					{ token: 'constant.numeric', regex: [r.i, r.h, r.f].join('|') }, 
