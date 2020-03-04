@@ -173,7 +173,13 @@ ace .define(
 		y .HighlightRules = YaksokHighlightRules 
 		y .foldingRules = new FoldMode( source ) 
 		y .lineCommentStart = '#' 
-		y .getNextLineIndent = function ( state, line, tab ) { 
+		y .getNextLineIndent = getNextLineIndent 
+		
+		exports .Mode = YaksokMode 
+		
+		// .. functions .. 
+		
+		function getNextLineIndent( state, line, tab ) { 
 			let indent = this .$getIndent( line ) 
 			let tokenizedLine = this .getTokenizer() .getLineTokens( line, state ) 
 			let tokens = tokenizedLine .tokens 
@@ -195,6 +201,5 @@ ace .define(
 			} // -- y .getNextLineIndent 
 		// TODO: auto outdent 
 		
-		exports .Mode = YaksokMode 
 		} // -- ( require, exports, module ) 
 	) // -- ace .define 
