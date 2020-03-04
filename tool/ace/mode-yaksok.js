@@ -23,7 +23,7 @@ ace .define(
 		
 		// .. functions .. 
 		
-		function literalJoin([ joinT ]) { return ([ valueT ]) => 
+		function literalJoiner([ joinT ]) { return ([ valueT ]) => 
 			valueT .match( /\S+/g ) .join( joinT ) 
 			} 
 		
@@ -31,7 +31,7 @@ ace .define(
 			let keywordMapper = this .createKeywordMapper( new class { 
 				'support.function' = '보여주기' 
 				'constant.language.boolean' = literalJoin `|` ` 참 거짓 ` 
-				'keyword' = literalJoin `|` ` 
+				'keyword' = literalJoiner `|` ` 
 					약속 번역 결속 만약 반복 그만 다시 이전 
 					이면 이라면 아니면 아니라면 아니면서 
 					이고 그리고 또는 이거나 
