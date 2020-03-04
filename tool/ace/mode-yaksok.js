@@ -8,7 +8,7 @@ ace .define(
 		
 		let oop = require('../lib/oop') 
 		let { TextHighlightRules } = require('./text_highlight_rules') 
-		let r = valuePipe( ([ p, v ]) => [ p, v .src ] ) ( new class { 
+		let r = valuePipe( ([ p, v ]) => [ p, v .source ] ) ( new class { 
 			i = /(?:(?:[1-9]\d*)|(?:0))/
 			h = /(?:0[xX][0-9a-fA-F]+)/
 			f = /(?:\d*\.?\d+(?:[Ee](?:[+-]?\d+)?)?)/
