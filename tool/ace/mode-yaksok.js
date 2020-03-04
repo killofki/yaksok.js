@@ -47,6 +47,7 @@ ace .define(
 						let { token, regex, next, ... vo } = vv 
 						let nexto = ( next ?? {} ) || { next } 
 						token ?? ( [ token, regex ] = Object .entries( vo ) ) 
+						
 						return { token, regex, ... nexto } 
 						} ) ([ 
 					  new class { 'comment' = '#.*$' } 
