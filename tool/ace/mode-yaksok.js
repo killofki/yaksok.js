@@ -8,11 +8,11 @@ ace .define(
 		let oop = require('../lib/oop') 
 		let { TextHighlightRules } = require('./text_highlight_rules') 
 		let r = valuePipe( ([ p, { source } ]) => [ p, source ] ) ( new class { 
-			i = /(?:(?:[1-9]\d*)|(?:0))/
-			h = /(?:0[xX][0-9a-fA-F]+)/
-			f = /(?:\d*\.?\d+(?:[Ee](?:[+-]?\d+)?)?)/
-			id = /(?:[$_a-zA-Z가-힣][$_a-zA-Z가-힣0-9]*)/
-			o = /(?:!=|>=|<=|\.|\-|\/|[~:+*%><])/
+			i = /(?:(?:[1-9]\d*)|(?:0))/ 
+			h = /(?:0[xX][0-9a-fA-F]+)/ 
+			f = /(?:\d*\.?\d+(?:[Ee](?:[+-]?\d+)?)?)/ 
+			id = /(?:[$_a-zA-Z가-힣][$_a-zA-Z가-힣0-9]*)/ 
+			o = /(?:!=|>=|<=|\.|\-|\/|[~:+*%><])/ 
 			} ) 
 		
 		oop .inherits( YaksokHighlightRules, TextHighlightRules ) 
