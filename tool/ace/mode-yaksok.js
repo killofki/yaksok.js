@@ -60,10 +60,10 @@ ace .define(
 				return { token, regex, ... nexto } 
 				} 
 			let tokenRegs = a => a .map( tokenPicker ) 
-			
 			let regJoins = ( ... regs ) => '' .concat( ... regs .map( r => 
 				r instanceof RegExp ? r .source : r 
 				) ) 
+			
 			let start = tokenRegs([ 
 				  { 'comment' : /#.*$/ } 
 				, { 'constant.numeric' : [ r .i, r .h, r .f ] } 
@@ -117,5 +117,57 @@ ace .define(
 				, translate 
 				} 
 			} // -- YaksokHighlightRules() 
+		} // -- ( require, exports, module ) 
+	) // -- ace .define 
+
+ace .define( 
+	  'ace/mode/yaksok', [ 
+		  'require', 'exports', 'module' 
+		, 'ace/lib/oop', 'ace/mode/text', 'ace/mode/folding/pythonic', 'ace/range' 
+		] 
+	, ( require, exports, module ) => { 
+		
+		let oop = require('../lib/oop') 
+		let { Mode } = require('./text') 
+		let { FoldMode } = require('./folding/pythonic') 
+		let { YaksokHighlightRules } = require('./yaksok_highlight_rules') 
+		
+		function YaksokMode() {} 
+		oop .inherits( YaksokMode, Mode ) 
+		
+		let { source } = /^\s*(?:약속(?!\s+그만)|만약|반복).*$/ 
+		Object .assign( YaksokMode .prototype, new class { 
+			HighlightRules = YaksokHighlightRules 
+			foldingRules = new FoldMode( source ) 
+			lineCommentStart = '#' 
+			getNextLineIndent = getNextLineIndent 
+			} ) 
+		
+		exports .Mode = YaksokMode 
+		
+		// .. functions .. 
+		
+		function getNextLineIndent( state, line, tab ) { 
+			let indent = this .$getIndent( line ) 
+			let tokenizedLine = this .getTokenizer() .getLineTokens( line, state ) 
+			let tokens = tokenizedLine .tokens 
+			if ( 
+					   tokens .length 
+					&& tokens[ tokens .length - 1 ] .type === 'comment' 
+					) { 
+				return indent 
+				} 
+			if ( state === 'start' ) { 
+				let match = line .match( 
+					/^(?:.*[\{\(\[]\s*|\s*(?:약속|만약|반복).*)$/ 
+					) 
+				if ( match ) { 
+					indent += tab 
+					} 
+				} 
+			return indent 
+			} // -- getNextLineIndent() 
+		// TODO: auto outdent 
+		
 		} // -- ( require, exports, module ) 
 	) // -- ace .define 
