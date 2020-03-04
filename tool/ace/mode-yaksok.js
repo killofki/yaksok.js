@@ -42,17 +42,17 @@ ace .define(
 					바깥 의 마다 
 					` 
 				}, 'identifier' ) 
-			this .$rules = new class { 
-				'start' = mapPipe( vv => { 
-						let { defaultToken, token, regex, next, ... vo } = vv 
-						if ( defaultToken ) { 
-							return { defaultToken } 
-							} 
-						let nexto = ( next ?? {} ) || { next } 
-						token ?? ( [ token, regex ] = Object .entries( vo ) ) 
-						
-						return { token, regex, ... nexto } 
-						} ) ([ 
+			this .$rules = valuePipe( ([ p, a ]) => mapPipe( vv => { 
+					let { defaultToken, token, regex, next, ... vo } = vv 
+					if ( defaultToken ) { 
+						return { defaultToken } 
+						} 
+					let nexto = ( next ?? {} ) || { next } 
+					token ?? ( [ token, regex ] = Object .entries( vo ) ) 
+					
+					return { token, regex, ... nexto } 
+					}) ( a ) ) ( new class { 
+				'start' = [ 
 					  new class { 'comment' = '#.*$' } 
 					, new class { 'constant.numeric' = [ r .i, r .h, r .f ] .join('|') } 
 					, new class { 
@@ -90,32 +90,50 @@ ace .define(
 					, new class { 'text' = '\\s+' } 
 					]) 
 				'qstring' = [ 
-					{ token: 'string', regex: '\'|$', next: 'start' }, 
-					{ defaultToken: 'string' } 
+					  new class { 
+						'string' = '\'|$' 
+						next = 'start' 
+						} 
+					, new class { defaultToken = 'string' } 
 					] 
 				'qqstring' = [ 
-					{ token: 'string', regex: '\"|$', next: 'start' }, 
-					{ defaultToken: 'string' } 
+					  new class { 
+						'string' = '\"|$'
+						next = 'start' 
+						} 
+					, new class { defaultToken = 'string' } 
 					] 
 				'description' = [ 
-					{ token: 'entity.name.function', regex: r.id }, 
-					{ token: 'paren.lparen', regex: '\\(', next: 'description_parameter' }, 
-					{ token: 'paren.rparen', regex: '\\)' }, 
-					{ token: 'keyword.operator', regex: '\\/' }, 
-					{ token: 'text', regex: '$', next: 'start' }, 
-					{ token: 'text', regex: '\\s+' } 
+					  new class { 'entity.name.function' = r.id } 
+					, new class { 
+						'paren.lparen' = '\\(' 
+						next =  'description_parameter' 
+						} 
+					, new class { 'paren.rparen' = '\\)' } 
+					, new class { 'keyword.operator' = '\\/' } 
+					, new clas { 
+						'text' = '$' 
+						next = 'start' 
+						} 
+					, new clas { 'text' =  '\\s+' } 
 					] 
 				'description_parameter' = [ 
-					{ token: 'variable.parameter', regex: r.id, next: 'description' }, 
-					{ token: 'text', regex: '\\s+' } 
+					  new class { 
+						'variable.parameter' = r .id 
+						next = 'description' 
+						} 
+					, new class { 'text' = '\\s+' } 
 					] 
 				'translate' = [ 
-					{ token: 'keyword.operator', regex: '^\\s*\\*{3}', next: 'start' }, 
-					{ defaultToken: 'support.function' } 
+					  new class { 
+						'keyword.operator' = '^\\s*\\*{3}' 
+						next = 'start' 
+						} 
+					, new class { defaultToken = 'support.function' } 
 					] 
-				} // -- this .$rules 
+				} ) // -- this .$rules 
 			} // -- YaksokHighlightRules() 
-		} 
+		} // -- ( require, exports, module ) 
 	) // -- ace .define 
 
 ace .define( 
