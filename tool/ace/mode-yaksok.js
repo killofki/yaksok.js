@@ -53,9 +53,9 @@ ace .define(
 						if ( defaultToken ) { 
 							return { defaultToken } 
 							} 
+						
 						let nexto = ( next ?? {} ) || { next } 
 						token ?? ( [ token, regex ] = Object .entries( vo ) ) 
-						
 						switch( true ) { 
 							case regex instanceof RegExp : 
 								regex = regex .source 
