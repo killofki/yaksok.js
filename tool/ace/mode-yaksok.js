@@ -6,10 +6,10 @@ ace .define(
 		] 
 	, function ( require, exports, module ) { 
 		
-		var oop = require('../lib/oop') 
-		var TextHighlightRules = require('./text_highlight_rules') .TextHighlightRules 
+		let oop = require('../lib/oop') 
+		let TextHighlightRules = require('./text_highlight_rules') .TextHighlightRules 
 		
-		var r = {} 
+		let r = {} 
 		r.i = '(?:(?:[1-9]\\d*)|(?:0))' // integer 
 		r.h = '(?:0[xX][0-9a-fA-F]+)' // hex 
 		r.f = '(?:\\d*\\.?\\d+(?:[Ee](?:[+-]?\\d+)?)?)' // float 
@@ -17,7 +17,7 @@ ace .define(
 		r.o = '(?:!=|>=|<=|\\.|\\-|\\/|[~:+*%><])' // operators 
 		
 		function YaksokHighlightRules() { 
-			 var keywordMapper = this.createKeywordMapper({ 
+			 let keywordMapper = this.createKeywordMapper({ 
 					  'support.function': '보여주기', 
 					  'constant.language.boolean': '참|거짓', 
 					  'keyword': [ 
@@ -91,28 +91,27 @@ ace .define(
 		] 
 	, function ( require, exports, module ) { 
 		
-		
-		var oop = require('../lib/oop') 
-		var TextMode = require('./text').Mode 
-		var PythonFoldMode = require('./folding/pythonic').FoldMode 
-		var YaksokHighlightRules = require('./yaksok_highlight_rules').YaksokHighlightRules 
+		let oop = require('../lib/oop') 
+		let TextMode = require('./text') .Mode 
+		let PythonFoldMode = require('./folding/pythonic').FoldMode 
+		let YaksokHighlightRules = require('./yaksok_highlight_rules').YaksokHighlightRules 
 		
 		function YaksokMode() {} 
 		oop.inherits(YaksokMode, TextMode) 
 		
-		var y = YaksokMode.prototype 
+		let y = YaksokMode.prototype 
 		y.HighlightRules = YaksokHighlightRules 
 		y.foldingRules = new PythonFoldMode('^\\s*(?:약속(?!\\s+그만)|만약|반복).*$') 
 		y.lineCommentStart = '#' 
 		y.getNextLineIndent = function (state, line, tab) { 
-			 var indent = this.$getIndent(line) 
-			 var tokenizedLine = this.getTokenizer().getLineTokens(line, state) 
-			 var tokens = tokenizedLine.tokens 
+			 let indent = this.$getIndent(line) 
+			 let tokenizedLine = this.getTokenizer().getLineTokens(line, state) 
+			 let tokens = tokenizedLine.tokens 
 			 if (tokens.length && tokens[tokens.length - 1].type === 'comment') { 
 				  return indent 
 			 } 
 			 if (state === 'start') { 
-				  var match = line.match( 
+				  let match = line.match( 
 						/^(?:.*[\{\(\[]\s*|\s*(?:약속|만약|반복).*)$/ 
 				  ) 
 				  if (match) { 
