@@ -100,21 +100,21 @@ ace .define(
 						token = keywordMapper 
 						regex = r .id 
 						} 
-					, new class { 'constant.language' = '\\(\\s*\\)' } 
-					, new class { 'paren.lparen' =  '[\\(\\[\\{]' } 
-					, new class { 'paren.rparen' =  '[\\)\\]\\}]' } 
-					, new class { 'text' = '\\s+' } 
+					, new class { 'constant.language' = /\(\s*\)/ } 
+					, new class { 'paren.lparen' =  /[\(\[\{]/ } 
+					, new class { 'paren.rparen' =  /[\)\]\}]/ } 
+					, new class { 'text' = /\s+/ } 
 					]) 
 				'qstring' = [ 
 					  new class { 
-						'string' = '\'|$' 
+						'string' = /'|$/ 
 						next = 'start' 
 						} 
 					, new class { defaultToken = 'string' } 
 					] 
 				'qqstring' = [ 
 					  new class { 
-						'string' = '\"|$'
+						'string' = /"|$/ 
 						next = 'start' 
 						} 
 					, new class { defaultToken = 'string' } 
@@ -122,27 +122,27 @@ ace .define(
 				'description' = [ 
 					  new class { 'entity.name.function' = r .id } 
 					, new class { 
-						'paren.lparen' = '\\(' 
+						'paren.lparen' = /\(/ 
 						next =  'description_parameter' 
 						} 
-					, new class { 'paren.rparen' = '\\)' } 
-					, new class { 'keyword.operator' = '\\/' } 
+					, new class { 'paren.rparen' = /\)/ } 
+					, new class { 'keyword.operator' = /\// } 
 					, new clas { 
 						'text' = '$' 
 						next = 'start' 
 						} 
-					, new clas { 'text' =  '\\s+' } 
+					, new clas { 'text' =  /\s+/ } 
 					] 
 				'description_parameter' = [ 
 					  new class { 
 						'variable.parameter' = r .id 
 						next = 'description' 
 						} 
-					, new class { 'text' = '\\s+' } 
+					, new class { 'text' = /\s+/ } 
 					] 
 				'translate' = [ 
 					  new class { 
-						'keyword.operator' = '^\\s*\\*{3}' 
+						'keyword.operator' = /^\s*\*{3}/ 
 						next = 'start' 
 						} 
 					, new class { defaultToken = 'support.function' } 
