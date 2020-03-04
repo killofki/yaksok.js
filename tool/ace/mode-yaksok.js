@@ -43,7 +43,7 @@ ace .define(
 					바깥 의 마다 
 					` 
 				}, 'identifier' ) 
-			let propertyMap = mapPipe( vv => { 
+			let tokenRegs = mapPipe( vv => { 
 				let { defaultToken, token, regex, next, ... vo } = vv 
 				if ( defaultToken ) { 
 					return { defaultToken } 
@@ -63,7 +63,7 @@ ace .define(
 				return { token, regex, ... nexto } 
 				}) 
 			
-			this .$rules = valuePipe( ([ p, a ]) => [ p, propertyMap( a ) ] ) ( new class { 
+			this .$rules = valuePipe( ([ p, a ]) => [ p, tokenRegs( a ) ] ) ( new class { 
 				'start' = [ 
 					  { 'comment' : /#.*$/ } 
 					, { 'constant.numeric' : [ r .i, r .h, r .f ] } 
