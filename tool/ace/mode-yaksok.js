@@ -75,10 +75,10 @@ ace .define(
 						'storage.type' = '약속' 
 						next =  'description' } 
 					, new class { 
-						token = [ 
-							'storage.type', 'text', 
-							'paren.lparen', 'text', 'keyword', 'text', 'paren.rparen' 
-							] 
+						token = literalItems ` 
+							storage.type text 
+							paren.lparen text keyword text paren.rparen 
+							` 
 						regex = '(번역)(\\s*)(\\()(\\s*)(' + r.id + ')(\\s*)(\\))' 
 						next = 'description' 
 						} 
