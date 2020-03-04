@@ -196,6 +196,5 @@ ace .define(
 		// TODO: auto outdent 
 		
 		exports .Mode = YaksokMode 
-		
 		} 
 	) // -- ace .define 
