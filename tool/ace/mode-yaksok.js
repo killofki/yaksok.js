@@ -51,7 +51,7 @@ ace .define(
 				
 				let nexto = ( next ?? {} ) || { next } 
 				token ?? ( [ token, regex ] = Object .entries( vo ) ) 
-				switch( true ) { 
+				switch( true ) { // source || array join 
 					case regex instanceof RegExp : 
 						regex = regex .source 
 						break 
